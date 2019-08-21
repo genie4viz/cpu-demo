@@ -4,7 +4,6 @@ import Scheduler, {unstable_scheduleCallback} from "scheduler";
 import _ from 'lodash';
 import Charts from './Charts';
 import Clock from './Clock';
-import { ENABLE_CONCURRENT_AND_SCHEDULED } from './index';
 import "./App.css";
 
 let cachedData = new Map();
@@ -39,17 +38,18 @@ export default function App() {
     }
 
     useEffect(() => {
-        window.addEventListener('keydown', e => {
+        const KeyDownHandler = e => {
             if (e.key.toLowerCase() === '?') {
                 e.preventDefault();
                 setState(state => ({
                     showClock: !state.showClock
                 }));
             }
-        });
-        
+        };
+
+        window.addEventListener('keydown', KeyDownHandler);
         return () => {
-            window.removeEventListener('keydown');
+            window.removeEventListener('keydown', KeyDownHandler);
         };
     }, []);
 
